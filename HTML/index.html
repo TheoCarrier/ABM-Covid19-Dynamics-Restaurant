@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>	
+<!--
+	Caminar by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>ABM Covid-19</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<div class="logo"><a href="#">Service de simulation basé-agents <br><br> Le cas du Covid-19
+					<span> <br>Théo Carrier</span></a></div>
+			</header>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+
+				<!-- One -->
+					<section id="one" class="wrapper style1">
+					<header>
+						<h2>Scénario 1 - Restaurant</h2>
+						<p>Ce scénario simule une transmission du covid-19 dans un restaurant</p>
+					</header>
+					
+					<div class="params">
+						<form name="NbPart">
+							<label for="NbParticules">Nombre de particules</label>
+							<input id="NbParticules" name="NbParticules" type="range" min="0" max="100" value="50" step="1" oninput="OutputNbParticules.value = NbParticules.value">
+	    					<output name="OutputNbParticules" id="OutputNbParticules">50</output>
+						</form>
+
+						<form name="LimitesParTables">
+							<label for="LimitesParTables">Maximum par table</label>
+							<input id="NbPerTable" name="NbPerTable" type="range" min="1" max="6" value="6" step="1" oninput="outputNbPerTable.value = NbPerTable.value">
+	    					<output name="outputNbPerTable" id="outputNbPerTable">6</output>
+						</form>
+
+
+						<form name="NbMask">
+							<label for="NbMask">% de masques portés</label>
+							<input id="NbMask" name="NbMask" type="range" min="0" max="100" value="0" step="1" oninput="outputNbMask.value = NbMask.value">
+	    					<output name="outputNbMask" id="outputNbMask">0</output><span>%</span>
+						</form>
+
+						<form name="Vaccinated">
+							<label for="Vaccinated">% de personnes vaccinées</label>
+							<input id="Vaccinated" name="Vaccinated" type="range" min="0" max="100" value="0" step="1" oninput="outputVaccinated.value = Vaccinated.value">
+	    					<output name="outputVaccinated" id="outputVaccinated">0</output><span>%</span>
+						</form>
+
+
+
+<!-- 						<form name="Desinfection">
+							<label for="Desinfection">% de désinfection des mains</label>
+							<input id="Desinfection" name="Desinfection" type="range" min="0" max="100" value="0" step="1" oninput="OutputDesinfection.value = Desinfection.value">
+	    					<output name="OutputDesinfection" id="OutputDesinfection">0</output><span>%</span>
+						</form> -->
+
+
+
+
+					</div>
+					<br>
+					<div class = "params">
+						<form name="CovidParticles">
+							<label for="CovidParticles">Nouvelle particule infectée</label>
+							<input type="button" id="button1" class="btn" value="Ajouter"  onclick="addInfectedPart()">
+						</form>
+
+						<form name="CovidWaiter">
+							<label for="CovidWaiter">Infecter un serveur</label>
+							<input type="button" id="button2" class="btn" value="Ajouter"  onclick="InfectWaiter()">
+						</form>
+
+						<form name="newCovidEntry">
+							<label for="newCovidEntry">% de personnes infectée</label>
+							<input id="newCovidEntry" name="newCovidEntry" type="range" min="0" max="100" value="0" step="1" oninput="outputNewCovidEntry.value = newCovidEntry.value">
+	    					<output name="outputNewCovidEntry" id="outputNewCovidEntry">0</output><span>%</span>
+						</form>
+
+
+
+						<form name="MaskWaiter">
+							<label>Serveurs Masqués</label>
+
+							<input id="MaskWaiter" name="MaskWaiter" type="checkbox">
+							<label for="MaskWaiter">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+						</form>
+
+<!-- 					<form name="Tables désinfectées après passage">
+						<br>
+						<br>
+						<input type="checkbox" id="tableDesin" name="tableDesin">
+						<label for="tableDesin">Désinfection des tables <br> après chaque passage</label>
+					</form> -->
+					</div>
+
+
+
+
+					<br><br><br>
+					<form name="expert">
+						<input type="checkbox" id="expert" name="expert">
+						<label id="expertLabel" for="expert">Experts</label>
+					</form>
+
+					<div id="paramsExpert" class="paramsExpert">
+						<form name="FormInfectiousRate">
+							<label id="LabelInfectiousRate" for="FormInfectiousRate">Beta : Taux d'infection</label>
+							<input type="range" id="infectiousRate" name="infectiousRate" min="0" max="100" value="1.267" step="0.001" oninput="outputrate.value = infectiousRate.value">
+
+							<input type="number" id="outputrate" name="outputrate"
+       						min="0" max="100" step="0.001" placeholder="1.267" oninput="infectiousRate.value = outputrate.value">
+						</form>
+
+						<form name="FormVirulence">
+							<label id="LabelVirulence" for="FormVirulence">Mu : Virulence</label>
+							<input type="range" id="virulence" name="virulence" min="0" max="100" value="0.0714" step="0.0001" oninput="outputvirulence.value = virulence.value">
+
+							<input type="number" id="outputvirulence" name="outputvirulence"
+       						min="0" max="100" step="0.0001" placeholder="0.0714" oninput="virulence.value= outputvirulence.value">
+						</form>
+
+						<form name="Lethalite">
+							<label id="labellethalite" for="Lethalite">Alpha: Mortalité (%)</label>
+							<input type="range" id="lethal" name="lethal" min="0" max="100" value="0.53" step="0.01" oninput="outputlethal.value = lethal.value">
+
+							<input type="number" id="outputlethal" name="outputlethal"
+       						min="0" max="100" step="0.01" placeholder="0.53" oninput="lethal.value = outputlethal.value">
+						</form>
+
+						<form name="Formguerison">
+							<label id="labelguerison" for="Formguerison">r: Guérison (Jours)</label>
+							<input type="range" id="guerison" name="guerison" min="0" max="100" value="14" step="0.01" oninput="outputguerison.value = guerison.value">
+							
+							<input type="number" id="outputguerison" name="outputguerison"
+       						min="0" max="100" step="0.01" placeholder="14" oninput="guerison.value = outputguerison.value">
+						</form>
+
+					</div>
+
+  					<div class="break"> <!-- break -->
+
+							<form name="r0">
+								<span id="r0span"> <label id="r02">R0: (Beta * N) / (Mu + alpha + r)&nbsp;&nbsp;=&nbsp;&nbsp;</label>
+								<output name="outputr0" id="outputr0">&nbsp;1.4</output></span>
+								<br>
+								<label id="r01">Beta: &nbsp;&nbsp;&nbsp;&nbsp; Taux d'infection<br>N: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Population susceptible<br>Mu:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Virulence<br>Alpha:&nbsp;&nbsp;&nbsp;Mortalité<br>r:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Taux de guérison</label>
+							</form>
+
+							<form name="counting">
+								<span>
+									<strong>Simulation :</strong>
+								<label id="count">Nouveaux infectées : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <output name="nbInfected" id="nbInfected">&nbsp;0</output>
+								<br>
+								
+								Nombre d'intrants infectés : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<output name="nbInfected" id="nbInfected2">&nbsp;0</output>
+								<br>
+								<br>
+
+								Nombre total d'infectés : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<output name="nbInfected" id="nbInfected3">&nbsp;0</output></span>		
+								<span><strong>Hors-simulation :</strong>
+								<br>
+								Nombre d'infectés probable : &nbsp;&nbsp;&nbsp;&nbsp;<output	name="nbInfected" id="nbInfectedAfter">&nbsp;0</output>
+								<br>
+								Nombre de morts probable : &nbsp;&nbsp;&nbsp;&nbsp;	<output	name="nbInfected" id="deathAfter">&nbsp;0</output></span>			
+							</form>
+
+							<form name="legende">
+								<span>
+								<label id="legende1">Légende : </label>
+								<label id="legende"> 
+									<span class="dotBlue"></span>&nbsp;&nbsp;&nbsp;&nbsp;Clients
+									<br> <span class="dotViolet"></span>&nbsp;&nbsp;&nbsp;&nbsp;Serveurs
+									<br> <span class="dotGreen"></span>&nbsp;&nbsp;&nbsp;&nbsp;Infecté contagieux
+									<br> <span class="dotDarkGreen"></span>&nbsp;&nbsp;&nbsp;&nbsp;Infecté non contagieux
+									<br> <span class="dotRose"></span>&nbsp;&nbsp;&nbsp;&nbsp;Personne masquée
+									<br> <span class="dotLightBlue"></span>&nbsp;&nbsp;&nbsp;&nbsp;Personne vaccinée
+								</label>
+								</span>
+							</form>
+
+							<form name="buttonreset">
+							<input type="button" class="reset" id="reset" name="reset" value="reset" onclick="resetPage(true)" style="  position: relative; top: 150px; right: -170px;">
+							</form>
+
+
+
+					</div>
+
+						<br><br>
+					<p id="pspec" class="pspec" align="right">Pressez A pour appliquer les nouveaux paramètres<br>Pressez P pour mettre pause </p>
+
+					<div class="canvas-container">
+					<canvas onmousedown="draw(event)" id="canvas" height="800" width="1400"></canvas>
+					<br>
+					<br>
+					<p id="pspec" class="pspec" align="Left">&nbsp;&nbsp;Graphique de la simulation</p>
+					<canvas id="chart"></canvas>
+					<br>
+					<p id="pspec" class="pspec" align="Left">&nbsp;&nbsp;Graphique final</p>
+					<span>&nbsp;&nbsp;R0 final :&nbsp;<output name="finalR0" id="finalR0">-</output></span>
+					<br>
+					<canvas id="chart2"></canvas>
+
+					</div>
+
+				</div>
+			</section>
+
+
+
+
+
+
+
+<!-- 
+
+					<section id="two" class="wrapper style2">
+						<header>
+							<h2>Vestibulum Convallis</h2>
+							<p>vehicula urna sed justo bibendum</p>
+						</header>
+						<div class="content">
+							<div class="chart-container">
+							<canvas id="chart"></canvas>
+							</div>
+						</div>
+					</section>
+
+
+					<section id="three" class="wrapper">
+						<div class="spotlight">
+							<div class="image flush"><img src="images/pic06.jpg" alt="" /></div>
+							<div class="inner">
+								<h3>Viverra Hendrerit</h3>
+								<p>Curabitur eget semper ante. Morbi eleifend ultricies est, a blandit diam vehicula vel. Vestibulum porttitor nisi quis viverra hendrerit. Suspendisse vel volutpat nibh, vel elementum lacus. Maecenas commodo pulvinar dui, at cursus metus imperdiet vel.</p>
+							</div>
+						</div>
+						<div class="spotlight alt">
+							<div class="image flush"><img src="images/pic07.jpg" alt="" /></div>
+							<div  class="inner">
+								<h3>Curabitur Eget</h3>
+								<p>Curabitur eget semper ante. Morbi eleifend ultricies est, a blandit diam vehicula vel. Vestibulum porttitor nisi quis viverra hendrerit. Suspendisse vel volutpat nibh, vel elementum lacus. Maecenas commodo pulvinar dui, at cursus metus imperdiet vel.</p>
+							</div>
+						</div>
+						<div class="spotlight">
+							<div class="image flush"><img src="images/pic08.jpg" alt="" /></div>
+							<div class="inner">
+								<h3>Morbi Eleifend</h3>
+								<p>Curabitur eget semper ante. Morbi eleifend ultricies est, a blandit diam vehicula vel. Vestibulum porttitor nisi quis viverra hendrerit. Suspendisse vel volutpat nibh, vel elementum lacus. Maecenas commodo pulvinar dui, at cursus metus imperdiet vel.</p>
+							</div>
+						</div>
+					</section>
+
+				</div>
+			</section>
+
+			<footer id="footer">
+				<div class="container">
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+					</ul>
+				</div>
+				<div class="copyright">
+					&copy; Untitled. All rights reserved. Images <a href="https://unsplash.com">Unsplash</a> Design <a href="https://templated.co">TEMPLATED</a>
+				</div>
+			</footer> -->
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/paramsExpert.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/relaodscript.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+			<!-- <script src="assets/js/package/dis/Chart.js"></script> -->
+			<script id="script" src="assets/js/script.js"></script>
+
+
+
+
+
+	</body>
+
+
+</html>
